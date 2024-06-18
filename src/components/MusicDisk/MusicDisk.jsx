@@ -8,7 +8,6 @@ import { main_context } from '../hooks/useStats_main';
 // Import all 44 images
 const diskImages = Array.from({ length: 44 }, (_, i) => require(`../../media/images/${i + 1}.jpg`));
 
-// const musicFiles = Array.from({ length: 27 }, (_, i) => require(`../../media/music/${i + 1}.mp3`));
 const importAll = (r) => r.keys().map(r);
 const musicFiles = importAll(require.context('../../media/music', false, /\.(mp3)$/));
 
@@ -25,13 +24,6 @@ export const MusicDisk = () => {
   const intervalRef = useRef(null);
   const startTimeRef = useRef(0);
 
-  // const getNextTrack = () => {
-  //   setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % musicFiles.length);
-  // };
-
-  // const getPreviousTrack = () => {
-  //   setCurrentTrackIndex((prevIndex) => (prevIndex - 1 + musicFiles.length) % musicFiles.length);
-  // };
   const getNextTrack = () => {
     setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % musicFiles.length);
   };
@@ -55,13 +47,10 @@ export const MusicDisk = () => {
     setIsPlaying(false);
     audioRef.current.pause();
     clearInterval(intervalRef.current);
-
     setTime(0);
 
     const moneyToSend = parseFloat((money - startMoney).toFixed(2));
     setStartMoney(money); // Update startMoney to the current money
-
-    console.log(moneyToSend);
 
     if (moneyToSend !== 0) {
       fetch(`${API_URL}users/increment_money/${telegram_id}/${moneyToSend}`, {
@@ -91,6 +80,18 @@ export const MusicDisk = () => {
     setIsPlaying(true);
   };
 
+  const handleMouseLeave = () => {
+    if (isPlaying) {
+      handleEnd();
+    }
+  };
+
+  const handleTouchCancel = () => {
+    if (isPlaying) {
+      handleEnd();
+    }
+  };
+
   useEffect(() => {
     const audioElement = audioRef.current;
     audioElement.addEventListener('ended', handleTrackEnd);
@@ -109,7 +110,6 @@ export const MusicDisk = () => {
     }
   }, [currentTrackIndex]);
 
-  // Format time into hours, minutes, seconds, and milliseconds
   const formatTime = (time) => {
     const milliseconds = Math.floor((time % 1000) / 10);
     const seconds = Math.floor((time / 1000) % 60);
@@ -119,38 +119,39 @@ export const MusicDisk = () => {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
   };
 
-  // Format money to show two decimal places
   const formatMoney = (money) => {
     return money.toFixed(2);
   };
 
   return (
-  <div className="music-disk-container">
-    <div className="money-display">💰{formatMoney(money)}</div>
-    <div className="divider"></div>
-    <div className="disk-space">
-      <div className={`glow ${isPlaying ? 'active' : ''}`}></div>
-      <div
-        className={`disk ${isPlaying ? 'spinning' : ''}`}
-        onMouseDown={handleStart}
-        onMouseUp={handleEnd}
-        onTouchStart={handleStart}
-        onTouchEnd={handleEnd}
-      >
-        <img src={currentDiskImage} alt="Music Disk" className="disk-image" />
-        <div className={`track-name ${isPlaying ? 'visible' : ''}`}>{musicFiles[currentTrackIndex]}</div>
+    <div className="music-disk-container">
+      <div className="money-display">💰{formatMoney(money)}</div>
+      <div className="divider"></div>
+      <div className="disk-space">
+        <div className={`glow ${isPlaying ? 'active' : ''}`}></div>
+        <div
+          className={`disk ${isPlaying ? 'spinning' : ''}`}
+          onMouseDown={handleStart}
+          onMouseUp={handleEnd}
+          onMouseLeave={handleMouseLeave} // Added onMouseLeave handler
+          onTouchStart={handleStart}
+          onTouchEnd={handleEnd}
+          onTouchCancel={handleTouchCancel} // Added onTouchCancel handler
+        >
+          <img src={currentDiskImage} alt="Music Disk" className="disk-image" />
+          <div className={`track-name ${isPlaying ? 'visible' : ''}`}>{musicFiles[currentTrackIndex]}</div>
+        </div>
       </div>
-    </div>
-    <audio ref={audioRef} src={musicFiles[currentTrackIndex]} />
-    <div className={`controls-timer ${isPlaying ? 'playing' : ''}`}>
+      <audio ref={audioRef} src={musicFiles[currentTrackIndex]} />
+      <div className={`controls-timer ${isPlaying ? 'playing' : ''}`}>
         <div className={`timer track-name ${isPlaying ? 'visible' : ''}`}>
           <marquee>{musicFiles[currentTrackIndex].split('/').pop()}</marquee>
         </div>
-      <div className={`controls ${isPlaying ? 'playing' : ''}`}>
-        <button className="control-button" onClick={getPreviousTrack}>◀️</button>
-        <button className="control-button" onClick={getNextTrack}>▶️</button>
+        <div className={`controls ${isPlaying ? 'playing' : ''}`}>
+          <button className="control-button" onClick={getPreviousTrack}>◀️</button>
+          <button className="control-button" onClick={getNextTrack}>▶️</button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
