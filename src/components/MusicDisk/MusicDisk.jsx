@@ -8,12 +8,9 @@ import { main_context } from '../hooks/useStats_main';
 // Import all 44 images
 const diskImages = Array.from({ length: 44 }, (_, i) => require(`../../media/images/${i + 1}.jpg`));
 
-const musicFiles = Array.from({ length: 27 }, (_, i) => require(`../../media/music/${i + 1}.mp3`));
-// const musicFiles = [
-//   require('../../media/music/52.mp3'),
-//   // require('../../media/music/2.mp3'),
-//   // Add all your tracks here
-// ];
+// const musicFiles = Array.from({ length: 27 }, (_, i) => require(`../../media/music/${i + 1}.mp3`));
+const importAll = (r) => r.keys().map(r);
+const musicFiles = importAll(require.context('../../media/music', false, /\.(mp3)$/));
 
 export const MusicDisk = () => {
   const { telegram_id } = useTelegram();
@@ -28,6 +25,13 @@ export const MusicDisk = () => {
   const intervalRef = useRef(null);
   const startTimeRef = useRef(0);
 
+  // const getNextTrack = () => {
+  //   setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % musicFiles.length);
+  // };
+
+  // const getPreviousTrack = () => {
+  //   setCurrentTrackIndex((prevIndex) => (prevIndex - 1 + musicFiles.length) % musicFiles.length);
+  // };
   const getNextTrack = () => {
     setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % musicFiles.length);
   };
@@ -121,31 +125,32 @@ export const MusicDisk = () => {
   };
 
   return (
-    <div className="music-disk-container">
-      <div className="money-display">💰{formatMoney(money)}</div>
-      <div className="divider"></div>
-      <div className="disk-space">
-        <div className={`glow ${isPlaying ? 'active' : ''}`}></div>
-        <div
-          className={`disk ${isPlaying ? 'spinning' : ''}`}
-          onMouseDown={handleStart}
-          onMouseUp={handleEnd}
-          onTouchStart={handleStart}
-          onTouchEnd={handleEnd}
-        >
-          <img src={currentDiskImage} alt="Music Disk" className="disk-image" />
-        </div>
-      </div>
-      <audio ref={audioRef} src={musicFiles[currentTrackIndex]} />
-      <div className={`controls-timer ${isPlaying ? 'playing' : ''}`}>
-        <div className="timer">
-          {formatTime(time)}
-        </div>
-        <div className={`controls ${isPlaying ? 'playing' : ''}`}>
-          <button className="control-button" onClick={getPreviousTrack}>⏮️</button>
-          <button className="control-button" onClick={getNextTrack}>⏭️</button>
-        </div>
+  <div className="music-disk-container">
+    <div className="money-display">💰{formatMoney(money)}</div>
+    <div className="divider"></div>
+    <div className="disk-space">
+      <div className={`glow ${isPlaying ? 'active' : ''}`}></div>
+      <div
+        className={`disk ${isPlaying ? 'spinning' : ''}`}
+        onMouseDown={handleStart}
+        onMouseUp={handleEnd}
+        onTouchStart={handleStart}
+        onTouchEnd={handleEnd}
+      >
+        <img src={currentDiskImage} alt="Music Disk" className="disk-image" />
+        <div className={`track-name ${isPlaying ? 'visible' : ''}`}>{musicFiles[currentTrackIndex]}</div>
       </div>
     </div>
-  );
+    <audio ref={audioRef} src={musicFiles[currentTrackIndex]} />
+    <div className={`controls-timer ${isPlaying ? 'playing' : ''}`}>
+        <div className={`timer track-name ${isPlaying ? 'visible' : ''}`}>
+          <marquee>{musicFiles[currentTrackIndex].split('/').pop()}</marquee>
+        </div>
+      <div className={`controls ${isPlaying ? 'playing' : ''}`}>
+        <button className="control-button" onClick={getPreviousTrack}>◀️</button>
+        <button className="control-button" onClick={getNextTrack}>▶️</button>
+      </div>
+    </div>
+  </div>
+);
 };
