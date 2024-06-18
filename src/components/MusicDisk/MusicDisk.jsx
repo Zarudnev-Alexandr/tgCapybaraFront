@@ -8,12 +8,12 @@ import { main_context } from '../hooks/useStats_main';
 // Import all 44 images
 const diskImages = Array.from({ length: 44 }, (_, i) => require(`../../media/images/${i + 1}.jpg`));
 
-// const musicFiles = Array.from({ length: 18 }, (_, i) => require(`../../media/music/${i + 1}.mp3`));
-const musicFiles = [
-  require('../../media/music/52.mp3'),
-  // require('../../media/music/2.mp3'),
-  // Add all your tracks here
-];
+const musicFiles = Array.from({ length: 27 }, (_, i) => require(`../../media/music/${i + 1}.mp3`));
+// const musicFiles = [
+//   require('../../media/music/52.mp3'),
+//   // require('../../media/music/2.mp3'),
+//   // Add all your tracks here
+// ];
 
 export const MusicDisk = () => {
   const { telegram_id } = useTelegram();
