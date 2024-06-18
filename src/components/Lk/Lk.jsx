@@ -20,7 +20,7 @@ export let Lk = () => {
 
   return (
     <div className="lk-container">
-      <button className="back-button" onClick={() => setCurrentPage('main')}>Back</button>
+      {/* <button className="back-button" onClick={() => setCurrentPage('main')}>Back</button> */}
       <div className="profile-block">
         <img src={profileImg} alt="Profile" className="profile-img" />
         <div className="profile-info">

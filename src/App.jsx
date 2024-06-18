@@ -18,6 +18,10 @@ function App() {
 
   useEffect(() => {
     tg.ready();
+    if (!tg.platform.includes("mobile")){
+      alert("Приложение доступно только на мобильных устройствах");
+      window.Telegram.WebApp.close(); // Закрыть веб-приложение
+    }
     if (telegram_id) {
       getUser(telegram_id, tg_fio, tg_username, setIsUserLogin, setIsUserBanned);
     }
