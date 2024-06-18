@@ -5,5 +5,5 @@
 
 
 //prod
-// export const API_URL = 'https://backtgbot.mood-klicker.ru/api/'
-export const API_URL = 'http://194.26.232.250:8000/api/'
+export const API_URL = 'https://harmonara.art/api/'
+// export const API_URL = 'http://194.26.232.250:8000/api/'
