@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/tgCapybaraFront/static/css/main.6f56692d.css",
-    "main.js": "/tgCapybaraFront/static/js/main.d63a9385.js",
+    "main.js": "/tgCapybaraFront/static/js/main.593ce2b5.js",
     "static/media/bird-song-meditation-158717.mp3": "/tgCapybaraFront/static/media/bird-song-meditation-158717.0739279a67d5bb89c994.mp3",
     "static/media/scottish-rain-meditation-178062.mp3": "/tgCapybaraFront/static/media/scottish-rain-meditation-178062.d78cbfae040d5e25fb78.mp3",
     "static/media/slow-boat-meditation-7744.mp3": "/tgCapybaraFront/static/media/slow-boat-meditation-7744.d1ef12d58e0e3559ea34.mp3",
@@ -65,10 +65,10 @@
     "static/media/4.jpg": "/tgCapybaraFront/static/media/4.fc9c5ccccc7eab310dca.jpg",
     "index.html": "/tgCapybaraFront/index.html",
     "main.6f56692d.css.map": "/tgCapybaraFront/static/css/main.6f56692d.css.map",
-    "main.d63a9385.js.map": "/tgCapybaraFront/static/js/main.d63a9385.js.map"
+    "main.593ce2b5.js.map": "/tgCapybaraFront/static/js/main.593ce2b5.js.map"
   },
   "entrypoints": [
     "static/css/main.6f56692d.css",
-    "static/js/main.d63a9385.js"
+    "static/js/main.593ce2b5.js"
   ]
 }
