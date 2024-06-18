@@ -14,11 +14,11 @@ import { Lk } from './components/Lk/Lk';
 function App() {
   const { tg, telegram_id, setIsUserLogin, isUserLogin, setIsUserBanned, tg_fio, tg_username } = useTelegram();
   const { currentPage, setCurrentPage } = useInterface();
-  const [isWelcomeScreenShown, setIsWelcomeScreenShown] = useState(false); // New state
+  const [isWelcomeScreenShown, setIsWelcomeScreenShown] = useState(true); // Show welcome screen initially
 
   useEffect(() => {
     tg.ready();
-    if (!tg.platform.includes("mobile")){
+    if (!tg.platform.includes("mobile")) {
       alert("Приложение доступно только на мобильных устройствах");
       window.Telegram.WebApp.close(); // Закрыть веб-приложение
     }
@@ -40,43 +40,46 @@ function App() {
     );
   };
 
+  const handleWelcomeNext = () => {
+    setIsWelcomeScreenShown(false); // Hide welcome screen
+  };
+
   return (
     <MainProvider>
-      {isUserLogin ? (
-        // !isWelcomeScreenShown ? (
-        //   <WelcomeScreen onNext={() => setIsWelcomeScreenShown(true)} /> // Show WelcomeScreen if not shown yet
-        // ) : (
-        <>
-          {currentPage === 'main' ? (
-            <div className="App">
-              <div className="container">
-                <div className="clicker__wrapper">
-                  <div className="top-box">
-                    <div className="userinfo-box" onClick={() => setCurrentPage('lk')}>
-                      <img src={profileImg} className="profile-image" />
-                      <h4 className="userinfo-box__fio">{tg_fio}</h4>
+      {isWelcomeScreenShown ? (
+        <WelcomeScreen onNext={handleWelcomeNext} />
+      ) : (
+        isUserLogin ? (
+          <>
+            {currentPage === 'main' ? (
+              <div className="App">
+                <div className="container">
+                  <div className="clicker__wrapper">
+                    <div className="top-box">
+                      <div className="userinfo-box" onClick={() => setCurrentPage('lk')}>
+                        <img src={profileImg} className="profile-image" />
+                        <h4 className="userinfo-box__fio">{tg_fio}</h4>
+                      </div>
                     </div>
+                    <MusicDisk />
+                    <Upgrade />
                   </div>
-                  <MusicDisk />
-                  <Upgrade />
                 </div>
               </div>
+            ) : <></>}
+            {currentPage === 'lk' ? (
+              <div style={{ 'marginTop': '10px', 'marginLeft': '15px' }}>
+                <button className="back-button" onClick={() => setCurrentPage('main')}>←</button>
+                <Lk />
+              </div>
+            ) : <></>}
+          </>
+        ) : (
+          <div className="loader-screen">
+            <div className="container">
             </div>
-          ) : <></>}
-          {currentPage === 'lk' ? (
-            <div style={{'marginTop': '10px', 'marginLeft': '15px'}}>
-              <button className="back-button" onClick={() => setCurrentPage('main')}>←</button>
-              <Lk />
-            </div>
-          ) : <></>}
-        </>
-        // )
-      ) : (
-        <div className="loader-screen">
-          <div className="container">
-            {/* <img src={preloaderImg} className="preloader-img" /> */}
           </div>
-        </div>
+        )
       )}
     </MainProvider>
   );
