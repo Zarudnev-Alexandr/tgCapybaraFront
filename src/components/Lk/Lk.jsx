@@ -5,6 +5,7 @@ import { main_context } from '../hooks/useStats_main';
 import profileImg from '../../media/images/capybaraProfile.png';
 import { getUserNFTLink } from '../../http/User';
 import { useInterface } from '../hooks/useInteface';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export let Lk = () => {
   const { tg_fio, tg_username, telegram_id } = useTelegram();
@@ -20,7 +21,6 @@ export let Lk = () => {
 
   return (
     <div className="lk-container">
-      {/* <button className="back-button" onClick={() => setCurrentPage('main')}>Back</button> */}
       <div className="profile-block">
         <img src={profileImg} alt="Profile" className="profile-img" />
         <div className="profile-info">
@@ -28,7 +28,9 @@ export let Lk = () => {
           <h3>@{tg_username}</h3>
           {nft_token && (
             <div className="profile-token">
-              <span>Token: {nft_token}</span>
+              <CopyToClipboard text={nft_token}>
+                <button className="copy-button">Copy Token</button>
+              </CopyToClipboard>
             </div>
           )}
           <div className="profile-links">

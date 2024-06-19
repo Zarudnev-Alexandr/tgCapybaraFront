@@ -8,23 +8,6 @@
   color: #fff;
 }
 
-.back-button {
-  align-self: flex-start;
-  background-color: #333;
-  color: #fff;
-  border: 2px solid #555;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-  margin-bottom: 20px;
-
-  &:hover {
-    background-color: #555;
-    border-color: #777;
-  }
-}
-
 .profile-block {
   display: flex;
   flex-direction: column;
@@ -60,6 +43,20 @@
       margin: 10px 0;
       font-size: 16px;
       color: #d0d0d0;
+
+      .copy-button {
+        background-color: #444;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #666;
+        }
+      }
     }
 
     .profile-links {
@@ -79,5 +76,22 @@
         }
       }
     }
+  }
+}
+
+.back-button {
+  align-self: flex-start;
+  background-color: #333;
+  color: #fff;
+  border: 2px solid #555;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  margin-bottom: 20px;
+
+  &:hover {
+    background-color: #555;
+    border-color: #777;
   }
 }
